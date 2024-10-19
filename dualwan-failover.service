@@ -1,0 +1,14 @@
+[Unit]
+Description=Dual WAN Failover Script
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/setup_dualwan_failover.sh
+Restart=always
+RestartSec=5
+StandardOutput=append:/var/log/dualwan_failover.log
+StandardError=append:/var/log/dualwan_failover_error.log
+
+[Install]
+WantedBy=multi-user.target

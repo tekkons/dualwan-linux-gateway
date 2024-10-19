@@ -1,0 +1,35 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto eth0
+allow-hotplug eth0
+iface eth0 inet static
+    address 192.0.2.22/24
+    gateway 192.0.2.1
+    # dns-* options are implemented by the resolvconf package, if installed
+    dns-nameservers 1.1.1.1
+    dns-search homelab.test
+    post-up ip route add default via 192.0.2.1 dev eth0 table wan1
+    post-up ip route add 192.0.2.0/24 dev eth0 src 192.0.2.22 table wan1
+    post-up ip rule add from 192.0.2.22 priority 11001 lookup wan1
+
+auto eth1
+allow-hotplug eth1
+iface eth1 inet static
+    address 203.0.113.13/24
+    #gateway 203.0.113.1
+    post-up ip route add default via 203.0.113.1 dev eth1 table wan2
+    post-up ip route add 203.0.113.0/24 dev eth1 src 203.0.113.13 table wan2
+    post-up ip rule add from 203.0.113.13 priority 12001 lookup wan2
+
+auto eth2
+allow-hotplug eth2
+iface eth2 inet static
+    address 192.168.77.1/24

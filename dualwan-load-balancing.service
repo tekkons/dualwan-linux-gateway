@@ -1,0 +1,14 @@
+[Unit]
+Description=Dual WAN Load Balancing Script
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/setup_dualwan_load_balancing.sh
+Restart=always
+RestartSec=5
+StandardOutput=append:/var/log/dualwan_load_balancing.log
+StandardError=append:/var/log/dualwan_load_balancing_error.log
+
+[Install]
+WantedBy=multi-user.target
